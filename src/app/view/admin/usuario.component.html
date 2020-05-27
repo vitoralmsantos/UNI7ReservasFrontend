@@ -1,0 +1,115 @@
+<div class="container">
+  <div class="row cabecalho">
+    <div class="col-lg-6">
+      <span>USUÁRIOS</span>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-4">
+
+      <div class="card">
+        <div id="headerUsuario" class="card-header">
+          <strong>{{titulo}}</strong>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-row align-items-center" style="margin-bottom: 8px">
+                <label class="label-msg" for="inputNome">Nome</label>
+                <input [(ngModel)]="usuario.Nome" type="text" class="form-control" id="inputNome">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-row align-items-center" style="margin-bottom: 8px">
+                <label class="label-msg" for="inputEmail">E-mail</label>
+                <input [(ngModel)]="usuario.Email" type="text" class="form-control" id="inputEmail">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-row align-items-center" style="margin-bottom: 8px">
+                <div class="form-group">
+                  <label class="label-msg" for="selectTipo">Categoria</label>
+                  <select [(ngModel)]='usuario.Tipo' class="form-control" id="selectTipo">
+                    <option value='-1'>--Escolha um tipo--</option>
+                    <option value='1'>Apoio Administrativo</option>
+                    <option value='2'>Coordenador(a)</option>
+                    <option value='3'>Professor(a)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="w-100">
+              <hr />
+              <div class="float-right">
+                <button class="btn btn-default" (click)="limpar()">Cancelar</button>
+                <button class="btn btn-success" (click)="registrar()">Registrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-body">
+          <table class="table table-hover table-sm">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">Categoria</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let usuario of usuarios; let i = index">
+                <th scope="row">{{usuario.Id}}</th>
+                <td>{{usuario.Nome}}</td>
+                <td>{{usuario.Email}}</td>
+                <td>{{usuario.TipoExtenso}}</td>
+                <td>
+                  <div>
+                    <div style="margin-bottom:-8px;margin-top:-8px" class="btn-group float-right">
+                      <button type="button" (click)="carregar(i)" class="btn btn-link"><i class="fas fa-edit"></i></button>
+                      <button type="button" (click)="remover(i)" class="btn btn-link"><i class="fas fa-trash-alt text-danger"></i></button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" tabindex="-1" role="dialog" id="modalErro">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header modal-header-erro">
+          <h5 class="modal-title">Erro</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>{{erroDetalhe}}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

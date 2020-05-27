@@ -1,0 +1,180 @@
+<div class="container">
+  <div class="row cabecalho">
+    <div class="col-lg-6">
+      <span>LOCAL</span>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-4">
+
+      <div class="card">
+        <div id="headerLocal" class="card-header">
+          <strong>{{titulo}}</strong>
+        </div>
+        <div class="card-body">
+          <div class="form-row align-items-center" style="margin-bottom: 8px">
+            <label class="label-msg" for="inputNome">Nome</label>
+            <input [(ngModel)]="local.Nome" type="text" class="form-control" id="inputNome">
+          </div>
+
+          <div class="form-check">
+            <input [(ngModel)]="local.Reservavel" class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+            <label class="form-check-label" for="defaultCheck1">
+              Reservavel
+            </label>
+          </div>
+
+          <div class="form-check">
+            <input [(ngModel)]="local.Disponivel" class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+            <label class="form-check-label" for="defaultCheck1">
+              Disponivel
+            </label>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-row align-items-center" style="margin-bottom: 8px">
+                <div class="form-group">
+                  <label class="label-msg" for="selectTipo">Tipo</label>
+                  <select [(ngModel)]="local.Tipo" class="form-control" id="selectTipo">
+                    <option value='-1'>--Escolha um tipo--</option>
+                    <option value='0'>Laboratório</option>
+                    <option value='1'>Sala</option>
+                    <option value='2'>Auditório</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12">
+              <label class="label-msg" for="inputObs">Comentário</label>
+              <textarea [(ngModel)]="local.Comentario" class="form-control" id="inputObs" rows="2"></textarea>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="w-100">
+              <hr />
+              <div class="float-right">
+                <button id="btCancelar" class="btn btn-default" (click)="limpar()">Cancelar</button>
+                <button id="btCadastrar" class="btn btn-success" (click)="registrar()">Cadastrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-body">
+          <table class="table table-hover table-sm">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Res.</th>
+                <th scope="col">Disp.</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Comentário</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let lo of locais; let i = index">
+                <th scope="row">{{lo.Id}}</th>
+                <td>{{lo.Nome}}</td>
+                <td>{{lo.TipoReservavel}}</td>
+                <td>{{lo.TipoDisponivel}}</td>
+                <td>{{lo.TipoLocal}}</td>
+                <td>{{lo.ComentarioReserva}}</td>
+                <td>
+                  <div style="margin-bottom:-8px;margin-top:-8px" class="float-right">
+                    <button (click)="carregar(i)" title="Editar" class="btn btn-link"><i class="fas fa-edit"></i></button>
+                    <button (click)="carregarRestricoes(i)" title="Restrições" class="btn btn-link"><i class="fas text-warning fa-exclamation-circle"></i></button>
+                    <button (click)="remover(i)" title="Remover" class="btn btn-link"><i class="fas fa-trash-alt text-danger"></i></button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" tabindex="-1" role="dialog" id="modalRestricoes">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header modal-header-info">
+          <h5 class="modal-title">Restrições de {{localRestricao}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="spinner" *ngIf="spinnerRestricoes"><i class="fa fa-spinner fa-spin"></i> Consultando locais e
+            restrições...</div>
+          <table class="table table-hover table-sm" *ngIf="restricoes.length > 0">
+            <thead>
+              <tr>
+                <th scope="col">Nome</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let categoria of restricoes; let i = index">
+                <td>{{categoria.Nome}}</td>
+                <td>
+                  <div style="margin-bottom:-8px;margin-top:-8px" class="float-right">
+                    <button type="button" (click)="removerRestricao(i)" class="btn btn-link"><i class="fas fa-trash-alt text-danger"></i></button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <hr>
+          <div class="row">
+            <div class="col-lg-4">
+              <label class="label-msg" for="selectCategoria">Categoria</label>
+              <select [(ngModel)]='naorestricaoId' class="form-control" id="selectCategoria">
+                <option *ngFor="let categoria of naorestricoes" [value]="categoria.Id">{{categoria.Nome}}</option>
+              </select>
+            </div>
+            <div class="col-lg-2">
+                <label class="label-msg" for="btRestringir"></label><br>
+              <button id="btRestringir" (click)="restringir()" class="btn btn-success btn-sm" style="margin-top:6px">Restringir</button>
+            </div>
+            <div class="col-lg-6"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="float-right">
+            <button id="btCancelar" class="btn btn-default btn-sm" data-dismiss="modal">Fechar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" tabindex="-1" role="dialog" id="modalErro">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header modal-header-erro">
+          <h5 class="modal-title">Erro</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>{{erroDetalhe}}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
