@@ -7,7 +7,7 @@ export class AuthService {
     public tokenKey: string = 'app_token';
     public userId: string = 'user_id';
     public objUsuario: string = 'objUsuario';
-    public BASEPATH: string = 'https://192.168.51.218:8081/api/';
+    public BASEPATH: string = 'https://192.168.101.218:8081/api/';
 
     public storeToken(content: Object) {
         localStorage.setItem(this.tokenKey, JSON.stringify(content));

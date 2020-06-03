@@ -27,8 +27,10 @@ import { CategoriaComponent } from './view/admin/categoria.component';
 import { RecursoComponent } from './view/admin/recurso.component';
 import { SairComponent } from './view/sair.component';
 
+import { TeamsComponent } from './view/teams.component';
+
 const appRoutes: Routes = [  
-  { path: '', component: HomeComponent},
+  { path: '', component: TeamsComponent},
   { path: 'principal', component: PrincipalComponent,
       children:[
         {path : 'sair', component: SairComponent},
@@ -71,7 +73,9 @@ const appRoutes: Routes = [
     RelatoriosComponent,
     CategoriaComponent,
     RecursoComponent,
-    SairComponent
+    SairComponent,
+
+    TeamsComponent
   ],
   imports: [
     RouterModule.forRoot(

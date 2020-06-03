@@ -35,6 +35,26 @@ export class HomeComponent implements OnInit {
 
   login() {
     this.spinnerAutenticando = true
+
+    this.usuarioService.testeTeams('email@email', 'NOVO ALUNO', 'EQUIPE TESTE 1')
+      .subscribe(response => {
+        this.spinnerAutenticando = false
+        if (response === undefined) {
+          this.mostrarErro('Não foi possível inserir novo usuário.')
+        }
+        else if (response.status == 0) {
+          this.mostraMsg('Cadastro realizado', 
+          '<strong>E-mail: </strong>' + response.elemento.emailUNI7 +
+          '<br/><strong>Senha: </strong>' + response.elemento.senhaUNI7 +
+          '<br/><strong>Equipe: </strong>' + response.elemento.equipe
+          )
+        }
+        else {
+          this.mostrarErro(response.Detalhes)
+        }
+    });
+
+/*
     this.usuarioService.autenticar(this.email, this.senha)
       .subscribe(response => {
         this.spinnerAutenticando = false
@@ -56,6 +76,8 @@ export class HomeComponent implements OnInit {
           this.mostrarErro(response.Detalhes)
         }
     });
+
+    */
   }
 
   solicitarCadastro() {

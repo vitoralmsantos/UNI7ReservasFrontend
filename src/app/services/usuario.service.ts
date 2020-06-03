@@ -3,6 +3,8 @@ import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { Usuario } from '../model/usuario.model';
+import { Membro } from '../model/membro.model';
+import { EntidadeResponseTemp } from './response/entidade.responsetemp';
 import { EntidadesResponse } from './response/entidades.response';
 import { EntidadeResponse } from './response/entidade.response';
 import { TokenResponse } from './response/token.response';
@@ -110,6 +112,17 @@ export class UsuarioService {
     let url = `${this.usuarioUrl}/${id}`;
     return this.http.delete<EntidadeResponse<Usuario>>(url, this.httpOptions)
       .pipe(catchError(this.handleError<EntidadeResponse<Usuario>>('deleteUsuario')));
+  }
+
+  testeTeams(email: string, nome: string, equipe: string): Observable<any> {
+    const url = 'http://192.168.51.218:8084/api/values/teams';
+    let u = new URLSearchParams();
+    u.set('Email', email);
+    u.set('Nome', nome);
+    u.set('Equipe', equipe);
+
+    return this.http.post<EntidadeResponseTemp<Membro>>(url, u.toString(), this.httpOptions)
+      .pipe(catchError(this.handleError<EntidadeResponseTemp<Membro>>('teams')));
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
