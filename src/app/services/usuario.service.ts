@@ -114,11 +114,13 @@ export class UsuarioService {
       .pipe(catchError(this.handleError<EntidadeResponse<Usuario>>('deleteUsuario')));
   }
 
-  testeTeams(email: string, nome: string, equipe: string): Observable<any> {
-    const url = 'http://192.168.51.218:8084/api/values/teams';
+  cadastroIndividual(email: string, nome: string, RA:string, equipe: string): Observable<any> {
+    //if (RA == '') RA='123'
+    const url = 'http://192.168.101.218:8084/api/values/individual';
     let u = new URLSearchParams();
     u.set('Email', email);
     u.set('Nome', nome);
+    u.set('RA', RA);
     u.set('Equipe', equipe);
 
     return this.http.post<EntidadeResponseTemp<Membro>>(url, u.toString(), this.httpOptions)

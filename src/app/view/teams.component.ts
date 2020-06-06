@@ -15,6 +15,7 @@ export class TeamsComponent implements OnInit {
 
   nome: string
   email: string
+  RA: string
   equipe: string
 
   msgTitulo: string
@@ -34,6 +35,7 @@ export class TeamsComponent implements OnInit {
     this.spinnerAutenticando = false
     this.equipe = '0'
     this.nome = ''
+    this.RA = ''
     this.email = ''
   }
 
@@ -47,15 +49,15 @@ export class TeamsComponent implements OnInit {
       formData.append(file.name, file);
 
     const uploadReq = new HttpRequest('POST', 
-    `https://localhost:44389/api/values/upload`, formData, {
+    `http://192.168.101.218:8084/api/values/upload`, formData, {
       reportProgress: true,
     });
 
     this.http.request(uploadReq).subscribe(event => {
-      if (event.type === HttpEventType.UploadProgress)
-        this.progress = Math.round(100 * event.loaded / event.total);
-      else if (event.type === HttpEventType.Response)
-        this.message = event.body.toString();
+       if (event.type === HttpEventType.Response)
+        this.message = JSON.parse(event.body.toString());
+
+        
     });
   }
 
@@ -77,7 +79,7 @@ export class TeamsComponent implements OnInit {
 
     this.spinnerAutenticando = true
 
-    this.usuarioService.testeTeams(this.email, this.nome, this.equipe)
+    this.usuarioService.cadastroIndividual(this.email, this.nome, this.RA, this.equipe)
       .subscribe(response => {
         this.spinnerAutenticando = false
         if (response === undefined) {
@@ -85,13 +87,13 @@ export class TeamsComponent implements OnInit {
         }
         else if (response.status == 0) {
           this.mostraMsg('Cadastro realizado', 
-          '<strong>E-mail: </strong>' + response.elemento.emailUNI7 +
-          '<br/><strong>Senha: </strong>' + response.elemento.senhaUNI7 +
+          '<strong>E-mail: </strong>' + response.elemento.ra +
+          '<br/><strong>Senha: </strong>' + response.elemento.senha +
           '<br/><strong>Equipe: </strong>' + response.elemento.equipe
           )
         }
         else {
-          this.mostrarErro(response.Detalhes)
+          this.mostrarErro(response.detalhes)
         }
     });
   }

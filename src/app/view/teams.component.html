@@ -1,69 +1,103 @@
 <div class="bodybackground">
-    <div class="container" style="margin-top:80px">
-        <div class="row">
-            <div class="col-lg-8"> 
-                <input #file type="file" multiple (change)="upload(file.files)" />
-                <br />
-                <span style="font-weight:bold;color:green;" *ngIf="progress > 0 && progress < 100">
-                {{progress}}%
-                </span>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-top:-4px">
+        <a class="navbar-brand" href="#"><img style="width:48px" src="../../assets/c7s-logo.png"></a>
+        Administração do MS Teams
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>      
+      </nav>
 
-                <span style="font-weight:bold;color:green;" *ngIf="message">
-                {{message}}
-                </span>
+    <div class="container" style="margin-top:20px">
+        <div class="row cabecalho">
+            <div class="col-lg-6">
+              <span>CADASTRO DE MEMBROS</span>
             </div>
-            <div class="col-lg-4" >
-                <div class="text-center">
-                    <img class="img-fluid" style="max-width: 120px" src="../../assets/c7s-logo.png">
-                </div> 
-
-                <div style="background-color:#E8EEE8; margin-top: 8px">
+          </div>
+        <div class="row">
+            <div class="col-lg-6"> 
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Cadastro em lote</h5>
+                    </div>
                     <div class="card-body">
-                        <div class="form-row align-items-center" style="margin-bottom: 8px">
-                            <label class="sr-only" for="inlineFormInputGroupEmail">Nome</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text"><i class="fas fa-user fa-fw"></i></div>
-                                </div>
-                                <input type="text" [(ngModel)]="nome" class="form-control" id="inlineFormInputGroupEmail"
-                                    placeholder="Nome">
+                        <strong>Padrão de cada linha:</strong>
+                        <p class="lead">nome;e-mail;RA;equipe</p>
+                        <input #file type="file" multiple (change)="upload(file.files)" />
+
+                        <div>{{message}}</div>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-lg-6" >
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Cadastro individual</h5>
+                    </div>
+                    <div class="card-body">
+                    <div class="form-row align-items-center" style="margin-bottom: 8px">
+                        <label class="sr-only" for="inlineFormInputGroupEmail">Nome</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text"><i class="fas fa-user fa-fw"></i></div>
                             </div>
-                        </div>
-
-                        <div class="form-row align-items-center" style="margin-bottom: 8px">
-                            <label class="sr-only" for="inlineFormInputGroupEmail">E-mail</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text"><i class="fas fa-at fa-fw"></i></div>
-                                </div>
-                                <input type="text" [(ngModel)]="email" class="form-control" id="inlineFormInputGroupEmail"
-                                    placeholder="E-mail">
-                            </div>
-                        </div>
-
-                        <div class="form-row align-items-center" style="margin-bottom: 8px">
-                            <label class="sr-only" for="inlineFormInputGroupEmail">E-mail</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text"><i class="fas fa-chalkboard-teacher fa-fw"></i></div>
-                                </div>
-
-                                <select [(ngModel)]='equipe' class="form-control" id="selectCurso" [value]='0'>
-                                    <option value='0'>--ESCOLHA O CURSO--</option>
-                                    <option value='EQUIPE TESTE 1'>EQUIPE TESTE 1</option>
-                                    <option value='EQUIPE TESTE 2'>EQUIPE TESTE 2</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <hr />
-                        <div class="form-row align-items-center" style="margin-bottom: 8px">
-                            <button id="btAutenticar" *ngIf="!spinnerAutenticando" (click)="cadastrar()" class="btn btn-success btn-block">Cadastrar</button>
-                            <button *ngIf="spinnerAutenticando" class="btn btn-warning btn-block disabled">
-                                Por favor, aguarde...
-                            </button>
+                            <input type="text" [(ngModel)]="nome" class="form-control" id="inlineFormInputGroupEmail"
+                                placeholder="Nome">
                         </div>
                     </div>
+
+                    <div class="form-row align-items-center" style="margin-bottom: 8px">
+                        <label class="sr-only" for="inlineFormInputGroupEmail">E-mail</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text"><i class="fas fa-at fa-fw"></i></div>
+                            </div>
+                            <input type="text" [(ngModel)]="email" class="form-control" id="inlineFormInputGroupEmail"
+                                placeholder="E-mail">
+                        </div>
+                    </div>
+
+                    <div class="form-row align-items-center" style="margin-bottom: 8px">
+                        <label class="sr-only" for="inlineFormInputGroupEmail">E-mail</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text"><i class="fas fa-address-book fa-fw"></i></div>
+                            </div>
+                            <input type="text" [(ngModel)]="RA" class="form-control" id="inlineFormInputGroupEmail"
+                                placeholder="RA">
+                        </div>
+                    </div>
+
+                    <div class="form-row align-items-center" style="margin-bottom: 8px">
+                        <label class="sr-only" for="inlineFormInputGroupEmail">E-mail</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text"><i class="fas fa-chalkboard-teacher fa-fw"></i></div>
+                            </div>
+
+                            <select [(ngModel)]='equipe' class="form-control" id="selectCurso" [value]='0'>
+                                <option value='0'>--ESCOLHA O CURSO--</option>
+                                <option value='CURSO DE FÉRIAS TESTE 1'>CURSO DE FÉRIAS TESTE 1</option>
+                                <option value='2020 Curso de Férias: Ciências Humanas'>2020 Curso de Férias: Ciências Humanas</option>
+                                <option value='2020 Curso de Férias: Redação'>2020 Curso de Férias: Redação</option>
+                                <option value='2020 Curso de Férias: Matemática 1'>2020 Curso de Férias: Matemática 1</option>
+                                <option value='2020 Curso de Férias: Matemática 2'>2020 Curso de Férias: Matemática 2</option>
+                                <option value='2020 Curso de Férias: Matemática 3'>2020 Curso de Férias: Matemática 3</option>
+                                <option value='2020 Curso de Férias: Biologia'>2020 Curso de Férias: Biologia</option>
+                                <option value='2020 Curso de Férias: Física'>2020 Curso de Férias: Física</option>
+                                <option value='2020 Curso de Férias: Química'>2020 Curso de Férias: Química</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+                    <div class="form-row align-items-center" style="margin-bottom: 8px">
+                        <button id="btAutenticar" *ngIf="!spinnerAutenticando" (click)="cadastrar()" class="btn btn-success btn-block">Cadastrar</button>
+                        <button *ngIf="spinnerAutenticando" class="btn btn-warning btn-block disabled">
+                            Por favor, aguarde...
+                        </button>
+                    </div>
+                  </div>
                 </div>
             </div>
         </div>
